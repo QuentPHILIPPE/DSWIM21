@@ -34,16 +34,17 @@
       <div>
         <?php if(isset($_POST['nom'])) {
                 echo $nom;
-        
-          $req2 = $db->prepare("SELECT image FROM capitale where nom =:nom");
-          $req2->bindValue(':nom', $nom, PDO::PARAM_STR);
-          $res = $req2->execute();
-
-            ?> <img src="<?php echo $res ?>" alt="" height="500" width="500">
+          
+      $stmt = $db->prepare("SELECT image FROM capitale where nom = ?");
+      if ($stmt->execute(array($nom))) {
+        while ($row = $stmt->fetch()) {
          
-  <?php
-          $req3 = $db->prepare("SELECT * FROM distance where distance");
-          $req3->bindValue(':distance', $distance, PDO::PARAM_SRT);
+          echo '<img src='.$row['image'].' height="500" width="500">';
+        }
+      }
+
+          $req3 = $db->prepare("SELECT * FROM distance");
+         // $req3->bindValue(':distance', $distance, PDO::PARAM_SRT);
           $req3->execute(); 
   
       } ?>
