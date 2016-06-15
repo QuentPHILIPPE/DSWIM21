@@ -21,7 +21,7 @@
         <tr><td><label>Capitale</label></td><td>
           <select name="nom" required>
         <?php
-          $req=$db->query("SELECT DISTINCT nom FROM capitale");
+          $req = $db->query("SELECT DISTINCT nom FROM capitale");
           foreach ($req as $result) { ?>
             <option><?php echo $result['nom']; ?></option>  
           <?php } ?>
@@ -33,24 +33,18 @@
       
       <div>
         <?php if(isset($_POST['nom'])) {
-                echo $_POST['nom'];
+                echo $nom;
         
-          $req = $db->prepare("SELECT image FROM capitale where nom =:nom");
-          $req->bindValue(':nom', $_POST['nom'], PDO::PARAM_STR);
-          $req->execute();
+          $req2 = $db->prepare("SELECT image FROM capitale where nom =:nom");
+          $req2->bindValue(':nom', $nom, PDO::PARAM_STR);
+          $res = $req2->execute();
 
-          if ($req->fetch())
-  	      {     
-           
-          foreach ($req as $result) { ?>
-            <img src="<?php echo $result ?>" alt="" height="100" width="100">
+            ?> <img src="<?php echo $res ?>" alt="" height="500" width="500">
          
-       <?php }
-		       
-	        }
-  
-          $req = $db->prepare("SELECT * FROM distance");
-          $req->execute();    
+  <?php
+          $req3 = $db->prepare("SELECT * FROM distance where distance");
+          $req3->bindValue(':distance', $distance, PDO::PARAM_SRT);
+          $req3->execute(); 
   
       } ?>
         
